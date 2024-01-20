@@ -1,0 +1,26 @@
+---
+- hosts: win
+  tasks:
+  - name: Create c:\Temp
+    ansible.windows.win_file:
+      path: C:\temp
+      state: directory
+
+  - name: Copy File to Temp
+    ansible.windows.win_copy:
+      src: /tmp/source/ndp48-x86-x64-allos-enu.exe
+      dest: C:\temp\
+  
+  - name: Install dotNET48
+    ansible.windows.win_package:
+      path: 'c:\temp\ndp48-x86-x64-allos-enu.exe'
+      arguments: '/q /norestart /AcceptEULA /log "c:\temp\DotNET48-Install.log"'
+      #product_id: '{16735AF7-1D8D-3681-94A5-C578A61EC832}'
+      state: present
+    #become: true
+    #become_method: runas
+    #become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+    register: dotnet_install
+  - name: Reboot 
+    ansible.windows.win_reboot:
+    when: dotnet_install.reboot_required
