@@ -19,6 +19,6 @@
 
 - name: Copy CAPolicy.inf
   ansible.windows.win_template:
-    src: Templates/CAPolicy.inf.j2
+    src: Template/CAPolicy.inf.j2
     dest: C:\Windows\CAPolicy.inf
     force: yes
