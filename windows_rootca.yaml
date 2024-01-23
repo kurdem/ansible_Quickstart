@@ -1,0 +1,24 @@
+- name: install pki
+  ansible.windows.win_feature:
+    name:
+      - Adcs-Cert-Authority
+    include_management_tools: yes
+    include_sub_features: yes
+    state: present
+
+- name: Create Scripts Folder
+  ansible.windows.win_file:
+    path: C:\Scripts
+    state: directory
+
+- name: Create PKI Folder
+  ansible.windows.win_file:
+    path: C:\pki
+    state: directory
+
+
+- name: Copy CAPolicy.inf
+  ansible.windows.win_template:
+    src: Templates/CAPolicy.inf.j2
+    dest: C:\Windows\CAPolicy.inf
+    force: yes
