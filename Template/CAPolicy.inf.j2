@@ -1,0 +1,24 @@
+;CAPolicy.inf für VPKI-RootCA - in C:\Windows
+[Version]
+Signature = "$Windows NT$"
+
+; RootCA-Zertifikat hat kein CDP und AIA, da selbstsigniert!
+[CRLDistributionPoint]
+Empty = true
+
+[AuthorityInformationAccess]
+Empty = true
+
+; Key Usage (OID=2.5.29.15) auf 3 Verwendungszwecke (ohne Digital Signature) festgelegt und kritisch markiert (critical)
+; AwIBBg== (binär codiert für 3 Verwendungszwecke Certificate Signing, Offline CRL Signing und CRL Signing)
+[Extensions]
+2.5.29.15 = AwIBBg==
+Critical = 2.5.29.15
+
+; Bei Erneuerung des eigenen Zertifikats
+[certsrv_server]
+LoadDefaultTemplates = {{pki_LoadDefaultTemplates}}
+RenewalKeyLength = 4096
+RenewalValidityPeriodUnits = 20
+RenewalValidityPeriod = years
+AlternateSignatureAlgorithm=0
